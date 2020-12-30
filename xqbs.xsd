@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://tempuri.org/XMLSchema.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:mstns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           
+>
+  <xs:complexType name="String-list">
+    <xs:sequence>
+      <xs:element name="item" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="Path">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="Version">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:complexType name="Path-list">
+    <xs:sequence>
+      <xs:element name="item" type="Path" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Var" >
+    <xs:complexContent>
+      <xs:extension base="String-list"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:element name="build-directory" type="xs:string" />
+  <xs:element name="condition" type="xs:boolean" />
+  <xs:element name="exclude-files" type="xs:string" />
+  <xs:element name="file-tags" type="String-list" />
+  <xs:element name="inputs" type="String-list"/>
+  <xs:element name="name" type="xs:string" />
+  <xs:element name="patterns" type="String-list" />
+  <xs:element name="priority" type="xs:int" />
+  <xs:element name="profiles" type="String-list" />
+  <xs:element name="version" type="Version" />
+
+  <xs:complexType name="Artifact">
+    <xs:sequence>
+      <xs:element name="build-directory" type="xs:string" />
+      <xs:element name="always-updated" type="xs:boolean"/>
+      <xs:element name="file-path" type="xs:string" />
+      <xs:element ref="file-tags"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Depends">
+    <xs:sequence>
+      <xs:element ref="condition"/>
+      <xs:element name="enable-fallback" type="xs:boolean"/>
+      <xs:element name="limit-to-suproject" type="xs:boolean" />
+      <xs:element ref="name"/>
+      <xs:element name="product-types" type="String-list" />
+      <xs:element name="profiles" type="String-list" />
+      <xs:element name="required" type="xs:boolean"/>
+      <xs:element name="submodules" type="String-list" />
+      <xs:element name="version-at-least" type="Version" />
+      <xs:element name="version-below" type="Version" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="Export">
+    <xs:sequence>
+      <xs:element name="prefix-mapping" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="File-tagger">
+    <xs:sequence>
+      <xs:element ref="file-tags" />
+      <xs:element ref="patterns" />
+      <xs:element name="priority" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Group">
+    <xs:sequence>
+      <xs:element ref="condition"/>
+      <xs:element ref="exclude-files" />
+      <xs:element ref="file-tags" />
+      <xs:element name="file-tags-filter" type="String-list" />
+      <xs:element name="files" type="String-list" />
+      <xs:element name="file-are-targets" type="xs:boolean" />
+      <xs:element ref="name"/>
+      <xs:element name="override-tags" type="xs:boolean" />
+      <xs:element name="prefix" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Job-limit">
+    <xs:sequence>
+      <xs:element ref="condition"/>
+      <xs:element ref="exclude-files" />
+      <xs:element ref="file-tags" />
+      <xs:element name="job-count" type="xs:int" />
+      <xs:element name="job-pool" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Module">
+    <xs:sequence>
+      <xs:element name="additiona-product-type" type="String-list" />
+      <xs:element ref="condition"/>
+      <xs:element name="present" type="xs:boolean" />
+      <xs:element ref="priority"/>
+      <xs:element name="setup-build-environment-script" type="Path" />
+      <xs:element name="setup-run-environment-script" type="Path" />
+      <xs:element name="validate" type="Path" />
+      <xs:element ref="version"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Android-ndk-module" >
+    <xs:complexContent>
+      <xs:extension base="Module">
+        <xs:sequence>
+          <xs:element name="abi" type="xs:string"/>
+          <xs:element name="app-stl" type="xs:string"/>
+          <xs:element name="ndk-dir" type="Path"/>
+          <xs:element name="platform" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Android-sdk-module" >
+    <xs:complexContent>
+      <xs:extension base="Module">
+        <xs:sequence>
+          <xs:element name="aapt-name" type="xs:string"/>
+          <xs:element name="aidl-search-paths" type="String-list"/>
+          <xs:element name="apk-base-name" type="xs:string"/>
+          <xs:element name="assets-dir" type="Path"/>
+          <xs:element name="automatic-source" type="xs:boolean"/>
+          <xs:element name="build-tool-version" type="Version"/>
+          <xs:element name="embed-jar" type="xs:boolean"/>
+          <xs:element name="manifest-file" type="xs:string"/>
+          <xs:element name="ndk-dir" type="Path"/>
+          <xs:element name="package-name" type="xs:string"/>
+          <xs:element name="package-type" type="xs:string"/>
+          <xs:element name="platform" type="xs:string"/>
+          <xs:element name="resource-dir" type="Path"/>
+          <xs:element name="sdk-dir" type="Path"/>
+          <xs:element name="sources-dir" type="Path"/>
+          <xs:element name="version-code" type="Version"/>
+          <xs:element name="version-name" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="C-cpp-compiler" >
+      <xs:sequence>
+        <xs:element name="defines-by-language" type="Var"/>
+        <xs:element name="flags" type="String-list"/>
+        <xs:element name="framework-paths" type="Path-list"/>
+        <xs:element name="include-paths" type="Path-list"/>
+        <xs:element name="language-version" type="String-list"/>
+        <xs:element name="library-paths" type="Path-list"/>
+        <xs:element name="name" type="xs:string"/>
+        <xs:element name="path" type="xs:string"/>
+        <xs:element name="path-by-language" type="Var"/>
+        <xs:element name="version" type="Version"/>
+        <xs:element name="version-major" type="xs:int"/>
+        <xs:element name="version-minor" type="xs:int"/>
+        <xs:element name="version-patch" type="xs:int"/>
+        <xs:element name="wrapper" type="String-list"/>
+      </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="C-cpp-linker" >
+    <xs:sequence>
+      <xs:element name="flags" type="String-list"/>
+      <xs:element name="mode" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="path" type="xs:string"/>
+      <xs:element name="variant" type="xs:string"/>
+      <xs:element name="wrapper" type="String-list"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="precompiled-header" >
+    <xs:sequence>
+      <xs:element name="precompiled-header-file" type="Path"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="Cpp-module" >
+    <xs:complexContent>
+      <xs:extension base="Module">
+        <xs:sequence>
+          <xs:element name="allow-unresolved-symbols" type="xs:boolean"/>
+          <xs:element name="always-use-lipo" type="xs:boolean"/>
+          <xs:element name="architecture" type="xs:string"/>
+          <xs:element name="archiver-name" type="xs:string"/>
+          <xs:element name="archiver-path" type="xs:string"/>
+          <xs:element name="assembler-flags" type="String-list"/>
+          <xs:element name="assembler-name" type="xs:string"/>
+          <xs:element name="assembler-path" type="xs:string"/>
+          <xs:element name="automatic-reference-counting" type="xs:boolean"/>
+          <xs:element name="c-compiler" type="C-cpp-compiler"/>
+          <xs:element name="cpp-compiler" type="C-cpp-compiler"/>
+          <xs:element name="combine-c-sources" type="xs:boolean"/>
+          <xs:element name="combine-cxx-sources" type="xs:boolean"/>
+          <xs:element name="combine-objc-sources" type="xs:boolean"/>
+          <xs:element name="combine-objcxx-sources" type="xs:boolean"/>
+          <xs:element name="common-compiler-flags" type="String-list"/>
+          <xs:element name="create-symlinks" type="xs:boolean"/>
+          <xs:element name="cxx-flags" type="String-list"/>
+          <xs:element name="cxx-language-version" type="String-list"/>
+          <xs:element name="cxx-standard-library" type="xs:string"/>
+          <xs:element name="debug-info-bundle-suffix" type="xs:string"/>
+          <xs:element name="debug-info-suffix" type="xs:string"/>
+          <xs:element name="debug-information" type="xs:boolean"/>
+          <xs:element name="defines" type="String-list"/>
+          <xs:element name="discard-unused-data" type="xs:boolean"/>
+          <xs:element name="distribution-framework-paths" type="Path-list"/>
+          <xs:element name="distribution-include-paths" type="Path-list"/>
+          <xs:element name="distribution-library-paths" type="Path-list"/>
+          <xs:element name="driver-flags" type="String-list"/>
+          <xs:element name="driver-linker-flags" type="String-list"/>
+          <xs:element name="dsymutil-flags" type="String-list"/>
+          <xs:element name="dsymutil-path" type="xs:string"/>
+          <xs:element name="dynamic-libraries" type="String-list"/>
+          <xs:element name="dynamic-library-import-suffix" type="xs:string"/>
+          <xs:element name="dynamic-library-prefix" type="xs:string"/>
+          <xs:element name="dynamic-library-suffix" type="xs:string"/>
+          <xs:element name="enable-compiler-defines-by-language" type="String-list"/>
+          <xs:element name="enable-exceptions" type="xs:boolean"/>
+          <xs:element name="enable-reproducible-builds" type="xs:boolean"/>
+          <xs:element name="enable-rtti" type="xs:boolean"/>
+          <xs:element name="enable-suspicious-linker-flag-warnings" type="xs:boolean"/>
+          <xs:element name="endianness" type="xs:string"/>
+          <xs:element name="entry-point" type="xs:string"/>
+          <xs:element name="exception-handling-model" type="xs:string"/>
+          <xs:element name="executable-prefix" type="xs:string"/>
+          <xs:element name="executable-suffix" type="xs:string"/>
+          <xs:element name="exported-symbols-check-mode" type="xs:string"/>
+          <xs:element name="framework-paths" type="Path-list"/>
+          <xs:element name="frameworks" type="String-list"/>
+          <xs:element name="generate-assembler-listing-files" type="xs:boolean"/>
+          <xs:element name="generate-compiler-listing-files" type="xs:boolean"/>
+          <xs:element name="generate-linker-map-file" type="xs:boolean"/>
+          <xs:element name="generate-manifest-file" type="xs:boolean"/>
+          <xs:element name="include-paths" type="Path-list"/>
+          <xs:element name="library-paths" type="Path-list"/>
+          <xs:element name="c-linker" type="C-cpp-linker"/>
+          <xs:element name="cpp-linker" type="C-cpp-linker"/>          
+          <xs:element name="lipo-path" type="xs:string"/>
+          <xs:element name="loadable-module-prefix" type="xs:string"/>
+          <xs:element name="loadable-module-suffix" type="xs:string"/>
+          <xs:element name="minimum-ios-version" type="Version"/>
+          <xs:element name="minimum-macos-version" type="Version"/>
+          <xs:element name="minimum-tvos-version" type="Version"/>
+          <xs:element name="minimum-watchos-version" type="Version"/>
+          <xs:element name="minimum-windows-version" type="Version"/>
+          <xs:element name="nm-name" type="xs:string"/>
+          <xs:element name="nm-path" type="xs:string"/>
+          <xs:element name="objc-flags" type="String-list"/>
+          <xs:element name="objcopy-name" type="xs:string"/>
+          <xs:element name="objcopy-path" type="xs:string"/>
+          <xs:element name="objcxx-flags" type="String-list"/>
+          <xs:element name="optimization" type="xs:string"/>
+          <xs:element name="platform-defines" type="String-list"/>
+          <xs:element name="position-independent-code" type="xs:boolean"/>
+          <xs:element name="prefix-headers" type="Path-list"/>
+          <xs:element name="remove-duplicate-libraries" type="xs:boolean"/>
+          <xs:element name="require-app-container" type="xs:boolean"/>
+          <xs:element name="require-app-extension-safe-api" type="xs:boolean"/>
+          <xs:element name="rpath-link-flag" type="xs:string"/>
+          <xs:element name="rpath-origin" type="xs:string"/>
+          <xs:element name="rpaths" type="String-list"/>
+          <xs:element name="runtime-library" type="xs:string"/>
+          <xs:element name="separate-debug-information" type="xs:boolean"/>
+          <xs:element name="so-version" type="Version"/>
+          <xs:element name="soname-prefix" type="xs:string"/>
+          <xs:element name="static-libraries" type="String-list"/>
+          <xs:element name="static-library-prefix" type="xs:string"/>
+          <xs:element name="static-library-suffix" type="xs:string"/>
+          <xs:element name="strip-name" type="xs:string"/>
+          <xs:element name="strip-path" type="xs:string"/>
+          <xs:element name="system-framework-paths" type="Path-list"/>
+          <xs:element name="system-include-paths" type="Path-list"/>
+          <xs:element name="system-run-paths" type="String-list"/>
+          <xs:element name="toolchain-install-path" type="xs:string"/>
+          <xs:element name="treat-system-headers-as-dependencies" type="xs:boolean"/>
+          <xs:element name="treat-warnings-as-errors" type="xs:boolean"/>
+          <xs:element name="use-c-precompiled-header" type="xs:boolean"/>
+          <xs:element name="use-cxx-precompiled-header" type="xs:boolean"/>
+          <xs:element name="use-language-version-fallback" type="xs:boolean"/>
+          <xs:element name="use-objc-precompiled-header" type="xs:boolean"/>
+          <xs:element name="use-objcxx-precompiled-header" type="xs:boolean"/>
+          <xs:element name="use-r-path-link" type="xs:boolean"/>
+          <xs:element name="use-r-paths" type="xs:boolean"/>
+          <xs:element name="variant-suffix" type="xs:string"/>
+          <xs:element name="visibility" type="xs:string"/>
+          <xs:element name="warning-level" type="xs:string"/>
+          <xs:element name="weak-frameworks" type="String-list"/>
+          <xs:element name="windows-api-additional-partitions" type="String-list"/>
+          <xs:element name="windows-api-character-set" type="xs:string"/>
+          <xs:element name="windows-api-family" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Module-provider">
+    <xs:sequence>
+      <xs:element ref="name"/>
+      <xs:element name="output-base-dir" type="xs:string"/>
+      <xs:element name="relative-search-paths" type="String-list"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Parameter">
+    <xs:sequence>
+      <xs:element name="build-directory" type="xs:string" />
+      <xs:element ref="condition"/>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="minimum-version" type="Version" />
+      <xs:element name="profile" type="xs:string" />
+      <xs:element name="search-paths" type="xs:string" />
+      <xs:element name="references" type="xs:string" />
+      <xs:element name="source-directory" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Parameters">
+    <xs:sequence>
+      <xs:element name="parameter" type="Parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Probe">
+    <xs:sequence>
+      <xs:element ref="condition"/>
+      <xs:element name="configure-script" type="Path" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Product">
+    <xs:sequence>
+      <xs:element name="agregate" type="xs:boolean"/>
+      <xs:element name="build-directory" type="xs:string" />
+      <xs:element name="build-by-default" type="xs:boolean" />
+
+      <xs:element ref="condition" />
+      <xs:element name="console-application" type="xs:boolean" />
+
+      <xs:element name="destination-directory" type="xs:string" />
+      <xs:element name="exclude-files" type="String-list" />
+      <xs:element name="file" type="String-list" />
+      <xs:element name="mulitplex-by-properties" type="String-list" />
+      <xs:element name="multiplexed-type" type="String-list" />
+
+      <xs:element ref="name" />
+
+      <xs:element name="search-paths" type="String-list" />
+      <xs:element name="source-diretory" type="Path" />
+
+      <xs:element name="target-name" type="xs:string" />
+
+      <xs:element name="type" type="String-list" />
+
+      <xs:element name="version" type="Version" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="Project">
+    <xs:sequence>
+      <xs:element name="build-directory" type="xs:string" />
+      <xs:element name="condition" type="xs:boolean"/>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="minimum-version" type="Version" />
+      <xs:element name="profile" type="xs:string" />
+      <xs:element name="search-paths" type="xs:string" />
+      <xs:element name="references" type="xs:string" />
+      <xs:element name="source-directory" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Properties">
+    <xs:sequence>
+      <xs:element name="condition" type="xs:boolean"/>
+      <xs:element name="override-list-properties" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Property-options">
+    <xs:sequence>
+      <xs:element name="allowed-values" type="String-list"/>
+      <xs:element name="destription" type="xs:string"/>
+      <xs:element name="name" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Rule">
+    <xs:sequence>
+      <xs:element name="always-run" type="xs:boolean"/>
+      <xs:element name="auxiliary-inputs" type="String-list"/>
+      <xs:element ref="condition" />
+      <xs:element name="excluded-inputs" type="String-list"/>
+      <xs:element name="explicitly-depends-on" type="String-list"/>
+      <xs:element name="explicitly-depends-on-from-dependecies" type="String-list"/>
+      <xs:element ref="inputs"/>
+      <xs:element name="inputs-from-dependencies" type="String-list"/>
+      <xs:element name="multiplex" type="xs:boolean"/>
+      <xs:element name="output-artifacts" type="xs:string"/>
+      <xs:element name="output-file-tags" type="String-list"/>
+      <xs:element name="prepare-script" type="Path"/>
+      <xs:element name="requires-inputs" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Scanner">
+    <xs:sequence>
+      <xs:element name="always-run" type="xs:boolean"/>
+      <xs:element ref="inputs"/>
+      <xs:element name="recursive" type="xs:boolean"/>
+      <xs:element name="scan-script" type="Path"/>
+      <xs:element name="search-paths-scripts" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Subproject">
+    <xs:sequence>
+      <xs:element ref="condition"/>
+      <xs:element name="file-path" type="Path"/>
+      <xs:element name="inherit-properties" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Convenience -->
+
+  <xs:complexType name="Application" >
+    <xs:complexContent>
+    <xs:extension base="Product">
+      <xs:sequence>
+        <xs:element ref="condition"/>
+        <xs:element name="file-path" type="Path"/>
+        <xs:element name="debug-information-install-dir" type="Path"/>
+        <xs:element name="install" type="xs:boolean"/>
+        <xs:element name="install-debug-information" type="xs:string"/>
+        <xs:element name="install-dir" type="Path"/>
+      </xs:sequence>
+    </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Autotest-runner">
+    <xs:sequence>
+      <xs:element name="arguments" type="String-list"/>
+      <xs:element name="auxiliary-inputs" type="String-list"/>
+      <xs:element name="environment" type="String-list"/>
+      <xs:element name="limit-to-subproject" type="xs:boolean"/>
+      <xs:element name="timeout" type="xs:int"/>
+      <xs:element name="working-dir" type="Path"/>
+      <xs:element name="wrapper" type="String-list"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Library" >
+    <xs:complexContent>
+      <xs:extension base="Product">
+        <xs:sequence>
+          <xs:element name="debug-information-install-dir" type="Path"/>
+          <xs:element name="import-lib-install-dir" type="xs:boolean"/>
+          <xs:element name="install" type="xs:boolean"/>
+          <xs:element name="install-debug-information" type="xs:string"/>
+          <xs:element name="install-dir" type="Path"/>
+          <xs:element name="install-import-dir" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <!-- Convenience -->
+  
+  <!-- Probe -->
+
+  <xs:complexType name="Path-probe" >
+    <xs:complexContent>
+      <xs:extension base="Product">
+        <xs:sequence>
+          <xs:element name="all-results" type="String-list"/>
+          <xs:element name="candidate-filter" type="xs:string"/>
+          <xs:element name="candidate-paths" type="String-list"/>
+          <xs:element name="file-name" type="xs:string"/>
+          <xs:element name="file-path" type="Path"/>
+          <xs:element name="name-filter-script" type="Path"/>
+          <xs:element name="name-suffixes" type="String-list"/>
+          <xs:element name="names" type="String-list"/>
+          <xs:element name="path" type="Path"/>
+          <xs:element name="path-suffixes" type="String-list"/>
+          <xs:element name="platform-environment-paths" type="String-list"/>
+          <xs:element name="platform-search-paths" type="String-list"/>
+          <xs:element name="search-paths" type="String-list"/>
+          <xs:element name="selectors" type="String-list"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Package-config-probe" >
+    <xs:complexContent>
+      <xs:extension base="Product">
+        <xs:sequence>
+          <xs:element name="compiler-flags" type="String-list"/>
+          <xs:element name="defines" type="String-list"/>
+          <xs:element name="exactVersion" type="xs:string"/>
+          <xs:element name="exacutable" type="xs:string"/>
+          <xs:element name="for-static-build" type="xs:boolean"/>
+          <xs:element name="include-paths" type="String-list"/>
+          <xs:element name="lib-dirs" type="String-list"/>
+          <xs:element name="libraries" type="String-list"/>
+          <xs:element name="library-paths" type="String-list"/>
+          <xs:element name="linker-flags" type="String-list"/>
+          <xs:element name="max-version" type="Version"/>
+          <xs:element name="min-version" type="Version"/>
+          <xs:element name="mod-version" type="Version"/>
+          <xs:element ref="name"/>
+          <xs:element name="package-names" type="String-list"/>
+          <xs:element name="sysroot" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <!-- Probe -->
+  
+  <xs:complexType name="Xqbs" >
+    <xs:sequence>
+      <xs:element name="application" type="Application"/>
+      <xs:element name="library" type="Library"/>
+      <xs:element name="product" type="Product"/>
+      <xs:element name="project" type="Project"/>
+    </xs:sequence>
+    <xs:attribute name="version" type="Version" use="required"/>
+  </xs:complexType>
+          
+  <xs:element name="xqbs" type="Xqbs"/>
+  
+</xs:schema>
